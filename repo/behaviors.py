@@ -53,25 +53,32 @@ class Service:
 
     def get_random_team(self, room_team_dic, room_result, room_number_dic, name_dic):
         for room_name in room_team_dic:
-            for index in range(len(room_result[room_name]), len(room_team_dic[room_name]), 1):
-                if index == room_number_dic[room_name]:
-                    break;
-
-                room = room_team_dic[room_name]
-                if len(room) == 0:
-                    break;
-
-                max_num = len(room) - 1
-                if max_num < 0:
-                    randomNumber = 0
-                else:
-                    randomNumber = random.randint(0, max_num)
-
-                name = room.pop(randomNumber)
-                room_result[room_name].append(name)
-                name_dic.pop(name)
+            result_length = len(room_result[room_name])
+            number = room_number_dic[room_name]
+            self.set_member_to_team(name_dic, number, result_length, room_name, room_number_dic, room_result,
+                                    room_team_dic)
 
         return room_result
+
+    def set_member_to_team(self, name_dic, number, result_length, room_name, room_number_dic, room_result,
+                           room_team_dic):
+        for index in range(result_length, number, 1):
+            if index == room_number_dic[room_name]:
+                break;
+
+            room = room_team_dic[room_name]
+            if len(room) == 0:
+                break;
+
+            max_num = len(room) - 1
+            if max_num < 0:
+                randomNumber = 0
+            else:
+                randomNumber = random.randint(0, max_num)
+
+            name = room.pop(randomNumber)
+            room_result[room_name].append(name)
+            name_dic.pop(name)
 
     def change_result_to_text(self, room_result):
         text = ""
